@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>
+		List of Available Employees
+	</title>
+</head>
+<body>
+<table class="table table-hover table-stripe">
+<thead>
+	<tr>
+		<th>NAME</th>
+				<th>RATING</th>
+<th>PHONE NO.</th>
+<th>EMAIL ID</th>
+<th>GENDER</th>
+<th>BOOK NOW</th>
+	</tr>
+</thead>
+<tbody>
+{% for any in data %}
+<tr>
+		<td>{{any.Name}}</td>
+				<td>{{any.Rating }}</td>
+<td>{{ any.PhoneNo }}</th>
+<td>{{ any.EmailID }}</td>
+<td>{{ any.Gender }}</td>
+<td><a href="#" class="btn btn-primary">Book Now</a></td>
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+</body>
+</html>
