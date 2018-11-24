@@ -11,15 +11,16 @@
 	{% if isit %}
 	<h2>is an organization</h2>
 	{% else %}
-	<h2>is an Employee</h2>
+	<h2>is an Employee of</h2>
+	<h3>{{ CompName }} Organisation</h3><br>
 	{% endif %}
 	<h3>{{ Company.PhoneNo }}</h3><br>
 	<h3>{{ Company.EmailID }}</h3><br>
 	<h3>{{ Company.Fax }}</h3><br>
 <a href="{% url 'log_out' %}" class="btn btn-lg btn-danger">LogOut</a><br>
-<a href="{% url 'show' %}" target="_blank" class="btn btn-lg btn-primary">HR Information</a>
-<a href="{% url 'Acc_Info' %}" class="btn btn-lg btn-success">ECM</a><br>
-<a href="#" class="btn btn-lg btn-warning">HCA</a><br>
+<!-- <a href="{% url 'show' %}" target="_blank" class="btn btn-lg btn-primary">HR Information</a> -->
+<a href="{% url 'Acc_Info1' %}" target="_blank" class="btn btn-lg btn-success">ECM</a><br>
+<a href="{% url 'HCA_Employee' %}" target="_blank" class="btn btn-lg btn-warning">HCA</a><br>
 
 
 </body>

@@ -2,6 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
 	<style type="text/css">
 		.selected{
 			color: #ff0000;
@@ -66,6 +67,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 	</style>
+	
 	<title>
 		HR Information
 	</title>
@@ -147,6 +149,103 @@ input:checked + .slider:before {
 </tbody>
 
 </table>
+</div><br><br>
+<select id = "ch">
+	<option>Pie</option>
+	<option>Bar</option>
+	<option>Line</option>
+</select>
+<button id = "fun" onclick="myFunc()" class="btn btn-primary">Apply</button>
+<div class="container"><br><br>
+
+<canvas id="myChart" width="400" height="400" class="col-md-4 offset-md-10"></canvas>
 </div>
+<br><br>
+<script type="text/javascript">
+
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["Low","Medium","High"],
+        datasets: [{
+            label: 'Average Salary',
+            data: {{ l }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        responsive: false
+    }
+});
+
+
+	function myFunc(){
+	var chce = document.getElementById("ch");
+	var e = chce.options[chce.selectedIndex].value;
+	var ch = 'pie';
+	if(e=='Line')
+	{
+		ch = 'line';
+	}
+	else if(e=='Bar')
+	{
+		ch = 'bar';
+	}
+	else
+	{
+		ch = 'pie';
+	}
+	myChart.destroy();
+	myChart = new Chart(ctx, {
+    type: ch,
+    data: {
+        labels: ["Low","Medium","High"],
+        datasets: [{
+            label: 'Average Salary',
+            data: {{ l }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        responsive: false
+    }
+});
+}
+</script>
 </body>
 </html>

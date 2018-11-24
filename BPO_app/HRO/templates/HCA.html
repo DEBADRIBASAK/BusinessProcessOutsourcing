@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Health Care Services
+	</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<h1>List of Employees who requested for Health Care Services:</h1><br>
+<table class="table table-stripe">
+<thead>
+	<tr>
+	<th>Name</th>
+	<th>Deposit</th>
+	</tr>
+</thead>
+<tbody>
+<tr>
+{% for any in data %}
+<td>{{ any.Name }}</td>
+<td>{{ any.Deposit}}</td>
+<td><a href="{% url 'ProcessHCA' pk=any.username flag=1 %}" class="btn btn-success">Grant</a></td>
+<td><a href="{% url 'ProcessHCA' pk=any.username flag=2 %}" class="btn btn-danger">Deny</a></td>
+{% endfor %}
+</tr>
+</tbody>
+</table>
+</body>
+</html>

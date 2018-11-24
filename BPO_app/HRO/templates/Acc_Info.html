@@ -2,8 +2,9 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
 	<title>
-		HR Information
+		Accounting Information
 	</title>
 </head>
 <body>
@@ -16,15 +17,27 @@
 		<label>Year: </label>
 		<select id="year" name="year"></select>
 		<button type="submit" class="btn btn-primary">Submit</button>
-	</form>
+	</form><br>
 </div>
+<script type="text/javascript">
+	var start = 2000;
+var end = new Date().getFullYear();
+var options = "";
+for(var year = start ; year <=end; year++){
+  options += "<option>"+ year +"</option>";
+}
+document.getElementById("year").innerHTML = options;
+console.dir({{ cr }})
+console.dir({{ dr }})
+</script>
 <div class="container">
 	<h2>Accounting Information for the Year: {{ year }}</h2>
+	{% if f %}
 <table class="table table-hover table-stripe">
 	<thead><tr>
 		<th>NAME OF ACCOUNT</th>
-				<th>CREDIT</th>
-<th>DEBIT</th>
+				<th>DEBIT</th>
+<th>CREDIT</th>
 	</tr>
 
 	</thead>
@@ -38,22 +51,87 @@
 {% endfor %}
 	<tr>
 <td><strong>Total:</strong></td>
-<td>{{ Credit_sum }}</td>
-<td>{{ Debit_sum }}</td>
+<td>{{ Dredit_sum }}</td>
+<td>{{ Crebit_sum }}</td>
 </tr>
 </tbody>
 
 </table>
 <label>Suspense Account: {{ Suspense }}</label>
 </div>
+
+<canvas id="myChart1" width="400" height="400" class="col-md-4 offset-md-10"></canvas>
+<canvas id="myChart2" width="400" height="400" class="col-md-4 offset-md-10"></canvas>
+{% else %}
+<h1>It Seems you have not uploaded Account Information for the chosen year</h1><br>
+{% endif %}
+<ul>
+	{% for any in dr %}
+	<li>{{ any }}</li>
+	{% endfor %}
+</ul>
 </body>
 <script type="text/javascript">
-	var start = 2000;
-var end = new Date().getFullYear();
-var options = "";
-for(var year = start ; year <=end; year++){
-  options += "<option>"+ year +"</option>";
-}
-document.getElementById("year").innerHTML = options;
+//if({{ f }})
+//{
+	var ctx = document.getElementById("myChart1").getContext('2d');
+	var ctx2 = document.getElementById("myChart2").getContext('2d');
+
+	// var backgroundColor1 = []
+	// var backgroundColor2 = []
+	// var border1 = []
+	// var border2 = []
+
+	// for(var i=0;i<{{ ld }};i++)
+	// {
+	// 	backgroundColor1.push('rgba(255, 99, 132, 0.5)');
+	// 	border1.push('rgba(255,99,132,1)');
+	// }
+	// for(var i=0;i<{{ lc }};i++)
+	// {
+	// 	backgroundColor2.push('rgba(132, 99, 255, 0.5)');
+	// 	border2.push('rgba(132,99,255,1)');
+	// }
+	var myChart = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        datasets: [{
+	            label: 'Debit Accounts',
+	            data: {{ dr }},
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero:true
+	                }
+	            }]
+	        },
+	        responsive: false
+	    }
+	});
+	var myChart2 = new Chart(ctx2, {
+	    type: 'line',
+	    data: {
+	        datasets: [{
+	            label: 'Credit Accounts',
+	            data: {{ cr }},
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero:true
+	                }
+	            }]
+	        },
+	        responsive: false
+	    }
+	});
+//}
 </script>
 </html>

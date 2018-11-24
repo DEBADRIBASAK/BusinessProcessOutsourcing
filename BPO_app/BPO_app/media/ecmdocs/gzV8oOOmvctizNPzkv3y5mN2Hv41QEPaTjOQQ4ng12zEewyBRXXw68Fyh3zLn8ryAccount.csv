@@ -1,0 +1,7 @@
+Name of Account,Debit,Credit
+Cash A/C,19000,0
+Cash at Bank A/C,20000,0
+Sales A/C,0,20000
+Purchase A/C,10000,0
+SalesReturn A/C,1000,0
+PurchaseReturn A/C,0,2000

@@ -1,0 +1,194 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
+	<title>
+		Accounting Information
+	</title>
+    <style type="text/css">
+        .silly{
+    padding-left: 30px;
+    background-color: #ffcc66;
+    height: 100%;
+    width: 100%;
+    font-family: 'popins';
+    font-size: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.silly1{
+
+    background-color: #ff9966;
+    padding-bottom: 20px;
+    font-family: 'popins';
+    padding-top: 20px;
+    width: 100%;
+}
+.silly2{
+    padding-left: 30px;
+    background-color: #c4ff4d;
+    height: 100%;
+    width: 100%;
+    font-family: 'popins';
+    font-size: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.silly3{
+    padding-left: 30px;
+    background-color: #4da6ff;
+    height: 100%;
+    width: 100%;
+    font-family: 'popins';
+    font-size: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.c1{
+    height: 150px;
+    width: 200px;
+}
+    </style>
+</head>
+<body>
+	<div class="text-center">
+	<h2>Select Year for Checking the particular Account Information of your organisation of that year</h2>
+</div><br><br>
+	<div class="text-center">
+	<form method="post">
+		{% csrf_token %}
+		<label>Year: </label>
+		<select id="year" name="year"></select>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+<script type="text/javascript">
+    var start = 2000;
+var end = new Date().getFullYear();
+var options = "";
+for(var year = start ; year <=end; year++){
+  options += "<option>"+ year +"</option>";
+}
+document.getElementById("year").innerHTML = options;
+</script>
+<section>
+<div class="container">
+	<h2>Accounting Information for the Year: {{ year }}</h2>
+{% if f %}
+<table class="table table-hover table-stripe">
+	<thead><tr>
+		<th>NAME OF ACCOUNT</th>
+				<th>DEBIT</th>
+<th>CREDIT</th>
+	</tr>
+
+	</thead>
+<tbody>
+	{% for value in data %}
+	<tr>
+{% for any in value %}
+<td>{{ any }}</td>
+{% endfor %}
+</tr>
+{% endfor %}
+	<tr>
+<td><strong>Total:</strong></td>
+<td>{{ Dredit_sum }}</td>
+<td>{{ Crebit_sum }}</td>
+</tr>
+</tbody>
+
+</table>
+<label>Suspense Account: {{ Suspense }}</label>
+</div>
+
+<canvas id="myChart1" width="400" height="400" class="col-md-4 offset-md-10"></canvas>
+<canvas id="myChart2" width="400" height="400" class="col-md-4 offset-md-10"></canvas>
+</section>
+{% else %}
+<h1>It seems that your Organisation Has not Uploaded Accounting Info for the Chosen Year</h1><br>
+{% endif %}
+<!-- <section>
+    div class="container container-fluid silly">
+    <img src="{%static 'docs.png' %}" class="col-md-6 c1">
+    <p class="col-md-6 offset-md-8">Use Google docs for online document creation,update and sharing
+    <a href="https://www.google.co.in/docs/about/" >Visit Google Docs</a></p>
+</div>
+<div class="container container-fluid text-center silly2">
+    <p class="col-md-6">Use Google drive for document storage and sharing
+    <a href="https://www.google.com/drive/" >Visit Google Drive</a></p>
+    <img src="{%static 'drive.jpg' %}" class="col-md-6 offset-md-6 c1">
+</div>
+<div class="container container-fluid silly3">
+    <img src="{%static 'form.png' %}" class="col-md-6 c1">
+    <p class="col-md-6 offset-md-6">Use Google forms for Electronic form solution
+    <a href="https://www.google.com/forms/about/" >Visit Google forms</a></p>
+</div>
+</section> -->
+</body>
+<script type="text/javascript">
+
+//document.getElementById("year").innerHTML = options;
+
+var ctx = document.getElementById("myChart1").getContext('2d');
+var ctx2 = document.getElementById("myChart2").getContext('2d');
+
+// var backgroundColor1 = []
+// var backgroundColor2 = []
+// var border1 = []
+// var border2 = []
+
+// for(var i=0;i<{{ ld }};i++)
+// {
+// 	backgroundColor1.push('rgba(255, 99, 132, 0.5)');
+// 	border1.push('rgba(255,99,132,1)');
+// }
+// for(var i=0;i<{{ lc }};i++)
+// {
+// 	backgroundColor2.push('rgba(132, 99, 255, 0.5)');
+// 	border2.push('rgba(132,99,255,1)');
+// }
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Debit Accounts',
+            data: {{ dr }},
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        responsive: false
+    }
+});
+var myChart2 = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Credit Accounts',
+            data: {{ cr }},
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        responsive: false
+    }
+});
+</script>
+</html>

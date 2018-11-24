@@ -26,7 +26,7 @@
 <td>{{ any.PhoneNo }}</th>
 <td>{{ any.EmailID }}</td>
 <td>{{ any.Gender }}</td>
-<td><a href="#" class="btn btn-primary">Book Now</a></td>
+<td><a href="{% url 'Book' pk=any.EmployeeCode %}" class="btn btn-primary">Book Now</a></td>
 	</tr>
 {% endfor %}
 </tbody>
